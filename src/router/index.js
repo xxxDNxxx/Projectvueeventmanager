@@ -1,27 +1,82 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
 import Home from '../views/Home.vue'
+import Login from '../views/authentication/Login.vue'
+import Register from '../views/authentication/Register.vue'
+import EventAll from '../views/events/EventAll.vue'
+import EventCreate from '../views/events/EventCreate.vue'
+import EventEdit from '../views/events/EventEdit.vue'
 
-Vue.use(VueRouter)
+Vue.use(Router)
 
-  const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+const isLoggedIn = false
 
-const router = new VueRouter({
-  routes
+export default new Router({
+    routes: [{
+            path: '/',
+            name: 'Home',
+            component: Home
+        },
+        {
+            path: '/events',
+            name: 'events-all',
+            component: EventAll,
+            beforeEnter: (toolbar, from, next) => {
+                if (isLoggedIn) {
+                    next();
+                } else {
+                    next('/login')
+                }
+            }
+        },
+        {
+            path: '/events/new',
+            name: 'events-create',
+            component: EventCreate,
+            beforeEnter: (toolbar, from, next) => {
+                if (isLoggedIn) {
+                    next();
+                } else {
+                    next('/login')
+                }
+            }
+
+        },
+        {
+            path: '/events/:id',
+            name: 'events-edit',
+            component: EventEdit
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: Register,
+            beforeEnter: (toolbar, from, next) => {
+                if (!isLoggedIn) {
+                    next();
+                } else {
+                    next('/')
+                }
+            }
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login,
+            beforeEnter: (toolbar, from, next) => {
+                if (!isLoggedIn) {
+                    next();
+                } else {
+                    next('/')
+                }
+            }
+        },
+        {
+            path: '*',
+            redirect: '/'
+        }
+    ],
+    LinkActiveClass: 'active',
+    mode: 'history'
+
 })
-
-export default router
