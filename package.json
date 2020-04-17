@@ -4,11 +4,13 @@
     "private": true,
     "scripts": {
         "serve": "vue-cli-service serve",
-        "build": "babel dev-server --out-dir prod-server && vue-cli-service build",
+        "build": "cross-env NODE_ENV=production && babel dev-server --out-dir prod-server && vue-cli-service build",
         "lint": "vue-cli-service lint",
-        "dev": "concurrently \"babel dev-server --out-dir prod-server --watch\" \"nodemon prod-server/index.js\" \"npm run serve\" "
+        "dev": "concurrently \"cross-env NODE_ENV=development\" \"babel dev-server --out-dir prod-server --watch\" \"nodemon prod-server/index.js\" \"npm run serve\" "
+
     },
     "dependencies": {
+        "body-parser": "^1.19.0",
         "bootstrap": "^4.4.1",
         "core-js": "^3.6.4",
         "express": "^4.17.1",
@@ -28,8 +30,10 @@
         "babel-eslint": "^10.1.0",
         "babel-preset-env": "^1.7.0",
         "concurrently": "^5.1.0",
+        "cors": "^2.8.5",
         "eslint": "^6.7.2",
         "eslint-plugin-vue": "^6.2.2",
+        "morgan": "^1.10.0",
         "vue-template-compiler": "^2.6.11"
     }
 }
