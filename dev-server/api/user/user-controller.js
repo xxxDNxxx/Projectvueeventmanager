@@ -1,3 +1,3 @@
 export function index(req, res) {
-    return res.json({ message: 'hello world' })
+    return res.status(500).json({ message: 'hello world' })
 }

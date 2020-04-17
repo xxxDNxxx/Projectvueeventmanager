@@ -10,10 +10,10 @@ var _stringUtil = require('../../utillities/string-util');
 function index(req, res) {
     var validation = validateIndex(req.body);
     if (!validation.isValid) {
-        return res.json({ message: validation.message });
+        return res.status(400).json({ message: validation.message });
     }
 
-    return res.json();
+    return res.status(204).json();
 }
 
 function validateIndex(body) {
