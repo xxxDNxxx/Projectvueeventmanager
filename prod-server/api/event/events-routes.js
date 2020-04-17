@@ -1,35 +1,32 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
+var _eventsController = require('./events-controller');
+
+var controller = _interopRequireWildcard(_eventsController);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = _express2.default.Router();
 
-router.post('/event', function (req, res) {
-    res.send('post.event - create event');
-});
 
-router.get('/event', function (req, res) {
-    res.send('get.event - get all event');
-});
+router.post('/event', controller.create);
 
-router.get('/event/:id', function (req, res) {
-    res.send('get.event - get event by id');
-});
+router.get('/event', controller.index);
 
-router.put('/event', function (req, res) {
-    res.send('put.event - update event');
-});
+router.get('/event/:id', controller.show);
 
-router.delete('/event', function (req, res) {
-    res.send('delete.event - delete event');
-});
+router.put('/event', controller.update);
+
+router.delete('/event', controller.remove);
 
 exports.default = router;

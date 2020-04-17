@@ -1,24 +1,15 @@
 import express from 'express'
 const router = express.Router()
+import * as controller from './events-controller'
 
-router.post('/event', (req, res) => {
-    res.send('post.event - create event')
-})
+router.post('/event', controller.create)
 
-router.get('/event', (req, res) => {
-    res.send('get.event - get all event')
-})
+router.get('/event', controller.index)
 
-router.get('/event/:id', (req, res) => {
-    res.send('get.event - get event by id')
-})
+router.get('/event/:id', controller.show)
 
-router.put('/event', (req, res) => {
-    res.send('put.event - update event')
-})
+router.put('/event', controller.update)
 
-router.delete('/event', (req, res) => {
-    res.send('delete.event - delete event')
-})
+router.delete('/event', controller.remove)
 
 export default router;
