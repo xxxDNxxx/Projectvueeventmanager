@@ -7,7 +7,6 @@
         "build": "cross-env NODE_ENV=production && babel dev-server --out-dir prod-server && vue-cli-service build",
         "lint": "vue-cli-service lint",
         "dev": "concurrently \"cross-env NODE_ENV=development\" \"babel dev-server --out-dir prod-server --watch\" \"nodemon prod-server/index.js\" \"npm run serve\" "
-
     },
     "dependencies": {
         "body-parser": "^1.19.0",
@@ -15,6 +14,7 @@
         "core-js": "^3.6.4",
         "express": "^4.17.1",
         "jquery": "^3.4.1",
+        "mongoose": "^5.9.9",
         "popper.js": "^1.16.1",
         "vue": "^2.6.11",
         "vue-router": "^3.1.6",

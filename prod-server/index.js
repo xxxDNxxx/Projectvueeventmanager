@@ -8,12 +8,14 @@ var _routes = require('./routes');
 
 var _env = require('./config/env');
 
+var _db = require('./config/db');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
 
-
 (0, _env.setEnvironment)(app);
+(0, _db.connectToDB)();
 (0, _routes.registerRoutes)(app);
 
 app.get('/', function (req, res) {
