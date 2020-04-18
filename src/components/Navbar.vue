@@ -25,26 +25,26 @@
         </router-link>
             
           </li>
-          <li class="nav-item">
+          <li v-if="$store.state.isLoggedIn" class="nav-item">
               <router-link to="/events" class="nav-link" exact>
         Event
         </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="!$store.state.isLoggedIn" class="nav-item">
               <router-link to="/register" class="nav-link" exact>
         Register
         </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="!$store.state.isLoggedIn" class="nav-item">
               <router-link to="/login" class="nav-link" exact>
         Login
         </router-link>
           </li>
-          <li class="nav-item">
+          <li v-on:click.prevent="logout()" v-if="$store.state.isLoggedIn" class="nav-item">
             <a class="nav-link" href="#">Logout</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a  class="nav-link" href="#">
                 {{this.$store.state.username ?
                 this.$store.state.username : 'User'}}
             </a>
@@ -55,3 +55,16 @@
     </nav>
   </header>
 </template>
+<script>
+import * as auth from '../services/AuthService'
+
+export default {
+  name:'Navbar',
+  methods:{
+    logout: function(){
+      auth.logout()
+      this.$router.push({name:'login'})
+    }
+  }
+}
+</script>

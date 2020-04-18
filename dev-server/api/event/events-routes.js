@@ -1,15 +1,17 @@
 import express from 'express'
 const router = express.Router()
 import * as controller from './events-controller'
+import * as auth from '../../services/auth-service'
 
-router.post('/event', controller.create)
 
-router.get('/event', controller.index)
+router.post('/event', auth.requireLogin, controller.create)
 
-router.get('/event/:id', controller.show)
+router.get('/event', auth.requireLogin, controller.index)
 
-router.put('/event', controller.update)
+router.get('/event/:id', auth.requireLogin, controller.show)
 
-router.delete('/event', controller.remove)
+router.put('/event', auth.requireLogin, controller.update)
+
+router.delete('/event', auth.requireLogin, controller.remove)
 
 export default router;
