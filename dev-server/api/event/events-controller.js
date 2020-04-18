@@ -1,6 +1,7 @@
 import User from '../../model/user-model'
 import Event from '../../model/event-model'
 import moment from 'moment'
+import * as auth from '../../services/auth-service'
 
 export function index(req, res) {
     // find all events
@@ -15,7 +16,7 @@ export function index(req, res) {
 
 export function create(req, res) {
     // create event
-    const id = 1
+    const id = auth.getUserId(req)
     User.findOne({ _id: id }, (error, user) => {
         if (error && !user) {
             return res.status(500).json()
@@ -35,7 +36,7 @@ export function create(req, res) {
 
 export function update(req, res) {
     // update a event
-    const id = 1
+    const id = auth.getUserId(req)
 
     User.findOne({ _id: id }, (error, user) => {
         if (error) {
@@ -45,7 +46,7 @@ export function update(req, res) {
             return res.status(404).json()
         }
 
-        const event = req.body.event
+        const event = new Event(req.body.event)
         event.create_by = user._id
         event.created_date = moment(event.created_date)
         Event.findByIdAndUpdate({ _id: event._id }, task, error => {
@@ -59,7 +60,7 @@ export function update(req, res) {
 
 export function remove(req, res) {
     // delete a events
-    const id = 1
+    const id = auth.getUserId(req)
     Event.findOne({ _id: req.params.id }, (error, event) => {
         if (error) {
             return res.status(500).json()
@@ -68,7 +69,7 @@ export function remove(req, res) {
             return res.status(404).json()
         }
         if (event.create_by._id.toString() !== id) {
-            return res.status(403).json({ message: 'Not allowed to delete another user\'s post' })
+            return res.status(403).json({ message: 'Not allowed to delete another user\'s event' })
         }
         Event.deleteOne({ _id: req.params.id }, error => {
             if (error) {

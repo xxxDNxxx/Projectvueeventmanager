@@ -21,6 +21,12 @@ var _moment = require('moment');
 
 var _moment2 = _interopRequireDefault(_moment);
 
+var _authService = require('../../services/auth-service');
+
+var auth = _interopRequireWildcard(_authService);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function index(req, res) {
@@ -35,7 +41,7 @@ function index(req, res) {
 
 function create(req, res) {
     // create event
-    var id = 1;
+    var id = auth.getUserId(req);
     _userModel2.default.findOne({ _id: id }, function (error, user) {
         if (error && !user) {
             return res.status(500).json();
@@ -55,7 +61,7 @@ function create(req, res) {
 
 function update(req, res) {
     // update a event
-    var id = 1;
+    var id = auth.getUserId(req);
 
     _userModel2.default.findOne({ _id: id }, function (error, user) {
         if (error) {
@@ -65,7 +71,7 @@ function update(req, res) {
             return res.status(404).json();
         }
 
-        var event = req.body.event;
+        var event = new _eventModel2.default(req.body.event);
         event.create_by = user._id;
         event.created_date = (0, _moment2.default)(event.created_date);
         _eventModel2.default.findByIdAndUpdate({ _id: event._id }, task, function (error) {
@@ -79,7 +85,7 @@ function update(req, res) {
 
 function remove(req, res) {
     // delete a events
-    var id = 1;
+    var id = auth.getUserId(req);
     _eventModel2.default.findOne({ _id: req.params.id }, function (error, event) {
         if (error) {
             return res.status(500).json();
@@ -88,7 +94,7 @@ function remove(req, res) {
             return res.status(404).json();
         }
         if (event.create_by._id.toString() !== id) {
-            return res.status(403).json({ message: 'Not allowed to delete another user\'s post' });
+            return res.status(403).json({ message: 'Not allowed to delete another user\'s event' });
         }
         _eventModel2.default.deleteOne({ _id: req.params.id }, function (error) {
             if (error) {
