@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { StringUtil } from '../utillities/string-util'
+import bcrypt from 'bcrypt-nodejs'
 
 const userSchema = new mongoose.Schema({
     username: String,
@@ -17,6 +18,8 @@ userSchema.pre('save', function(next) {
     this.username = this.username.toLowerCase()
     this.firstname = this.firstname.toLowerCase()
     this.lastname = this.lastname.toLowerCase()
+    const unsafePassword = this.password
+    this.password = bcrypt.hashSync(unsafePassword)
     next()
 })
 

@@ -7,10 +7,12 @@ export function index(req, res) {
     }
 
     const user = new User({
-        username: req.body.username.toLowerCase(),
-        password: req.body.password
+        username: req.body.username,
+        password: req.body.password,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname
     })
-    User.save(error => {
+    user.save(error => {
         if (error) {
             if (error.code === 11000) {
                 return res.status(403).json({ message: 'Username is already taken' })
@@ -28,6 +30,12 @@ function validateIndex(body) {
     }
     if (StringUtil.isEmpty(body.password)) {
         errors += 'Password is required'
+    }
+    if (StringUtil.isEmpty(body.firstname)) {
+        errors += 'Firstname is required'
+    }
+    if (StringUtil.isEmpty(body.lastname)) {
+        errors += 'Lastname is required'
     }
 
     return {

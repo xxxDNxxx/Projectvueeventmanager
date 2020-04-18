@@ -20,10 +20,12 @@ function index(req, res) {
     }
 
     var user = new _userModel2.default({
-        username: req.body.username.toLowerCase(),
-        password: req.body.password
+        username: req.body.username,
+        password: req.body.password,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname
     });
-    _userModel2.default.save(function (error) {
+    user.save(function (error) {
         if (error) {
             if (error.code === 11000) {
                 return res.status(403).json({ message: 'Username is already taken' });
@@ -41,6 +43,12 @@ function validateIndex(body) {
     }
     if (_stringUtil.StringUtil.isEmpty(body.password)) {
         errors += 'Password is required';
+    }
+    if (_stringUtil.StringUtil.isEmpty(body.firstname)) {
+        errors += 'Firstname is required';
+    }
+    if (_stringUtil.StringUtil.isEmpty(body.lastname)) {
+        errors += 'Lastname is required';
     }
 
     return {
