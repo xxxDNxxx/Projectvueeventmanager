@@ -24,5 +24,5 @@ function setProdEnv(app) {
     process.env.DB_URL = 'mongodb://admin3:admin3@ds263048.mlab.com:63048/faceverification'
     process.env.TOKEN_SECRET = 'my-production-secret'
     app.use(bodyParser.json())
-    app.use(express.static(__dirname + '/../dist'))
+    app.use(express.static(__dirname + '/../../dist'))
 }
