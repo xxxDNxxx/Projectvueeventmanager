@@ -46,7 +46,7 @@ function create(req, res) {
         if (error && !user) {
             return res.status(500).json();
         }
-        var event = new _eventModel2.default(req.body.Event);
+        var event = new _eventModel2.default(req.body.event);
         event.author = user._id;
         event.dueDate = (0, _moment2.default)(event.dueDate);
 
@@ -74,7 +74,7 @@ function update(req, res) {
         var event = new _eventModel2.default(req.body.event);
         event.author = user._id;
         event.dueDate = (0, _moment2.default)(event.dueDate);
-        _eventModel2.default.findByIdAndUpdate({ _id: event._id }, task, function (error) {
+        _eventModel2.default.findByIdAndUpdate({ _id: event._id }, event, function (error) {
             if (error) {
                 return res.status(500).json();
             }

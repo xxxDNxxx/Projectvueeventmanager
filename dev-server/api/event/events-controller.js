@@ -21,7 +21,7 @@ export function create(req, res) {
         if (error && !user) {
             return res.status(500).json()
         }
-        const event = new Event(req.body.Event)
+        const event = new Event(req.body.event)
         event.author = user._id
         event.dueDate = moment(event.dueDate)
 
@@ -49,7 +49,7 @@ export function update(req, res) {
         const event = new Event(req.body.event)
         event.author = user._id
         event.dueDate = moment(event.dueDate)
-        Event.findByIdAndUpdate({ _id: event._id }, task, error => {
+        Event.findByIdAndUpdate({ _id: event._id }, event, error => {
             if (error) {
                 return res.status(500).json()
             }

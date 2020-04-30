@@ -31,6 +31,6 @@ router.get('/event/:id', auth.requireLogin, controller.show);
 
 router.put('/event', auth.requireLogin, controller.update);
 
-router.delete('/event', auth.requireLogin, controller.remove);
+router.delete('/event/:id', auth.requireLogin, controller.remove);
 
 exports.default = router;
