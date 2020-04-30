@@ -12,9 +12,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var eventSchema = new _mongoose2.default.Schema({
     title: String,
-    description: String,
-    created_date: { type: Date, default: Date.now },
-    create_by: { type: _mongoose2.default.Schema.Types.ObjectId, ref: 'user' }
+    body: String,
+    dueDate: { type: Date, default: Date.now },
+    author: { type: _mongoose2.default.Schema.Types.ObjectId, ref: 'user' }
 });
 eventSchema.set('timestamps', true);
 

@@ -10,7 +10,7 @@ export function index(req, res) {
             return res.status(500).json()
         }
         return res.status(200).json({ events: events })
-    }).populate('create_by', 'username', 'user')
+    }).populate('author', 'username', 'user')
 
 }
 
@@ -22,8 +22,8 @@ export function create(req, res) {
             return res.status(500).json()
         }
         const event = new Event(req.body.Event)
-        event.create_by = user._id
-        event.created_date = moment(event.created_date)
+        event.author = user._id
+        event.dueDate = moment(event.dueDate)
 
         event.save(error => {
             if (error) {
@@ -47,8 +47,8 @@ export function update(req, res) {
         }
 
         const event = new Event(req.body.event)
-        event.create_by = user._id
-        event.created_date = moment(event.created_date)
+        event.author = user._id
+        event.dueDate = moment(event.dueDate)
         Event.findByIdAndUpdate({ _id: event._id }, task, error => {
             if (error) {
                 return res.status(500).json()
@@ -68,7 +68,7 @@ export function remove(req, res) {
         if (!event) {
             return res.status(404).json()
         }
-        if (event.create_by._id.toString() !== id) {
+        if (event.author._id.toString() !== id) {
             return res.status(403).json({ message: 'Not allowed to delete another user\'s event' })
         }
         Event.deleteOne({ _id: req.params.id }, error => {
