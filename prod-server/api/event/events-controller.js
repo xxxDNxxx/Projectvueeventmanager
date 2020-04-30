@@ -25,6 +25,10 @@ var _authService = require('../../services/auth-service');
 
 var auth = _interopRequireWildcard(_authService);
 
+var _randomstring = require('randomstring');
+
+var _randomstring2 = _interopRequireDefault(_randomstring);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -49,6 +53,7 @@ function create(req, res) {
         var event = new _eventModel2.default(req.body.event);
         event.author = user._id;
         event.dueDate = (0, _moment2.default)(event.dueDate);
+        event.eventKey = _randomstring2.default.generate(5);
 
         event.save(function (error) {
             if (error) {

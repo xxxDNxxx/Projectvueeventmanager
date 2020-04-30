@@ -2,7 +2,7 @@ import User from '../../model/user-model'
 import Event from '../../model/event-model'
 import moment from 'moment'
 import * as auth from '../../services/auth-service'
-
+import keyrandom from 'randomstring'
 export function index(req, res) {
     // find all events
     Event.find({}, (error, events) => {
@@ -24,6 +24,7 @@ export function create(req, res) {
         const event = new Event(req.body.event)
         event.author = user._id
         event.dueDate = moment(event.dueDate)
+        event.eventKey = keyrandom.generate(5)
 
         event.save(error => {
             if (error) {

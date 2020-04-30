@@ -14,7 +14,8 @@ var eventSchema = new _mongoose2.default.Schema({
     title: String,
     body: String,
     dueDate: { type: Date, default: Date.now },
-    author: { type: _mongoose2.default.Schema.Types.ObjectId, ref: 'user' }
+    author: { type: _mongoose2.default.Schema.Types.ObjectId, ref: 'user' },
+    eventKey: String
 });
 eventSchema.set('timestamps', true);
 
