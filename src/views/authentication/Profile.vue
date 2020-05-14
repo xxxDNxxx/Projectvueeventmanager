@@ -1,0 +1,19 @@
+<template>
+    <div>
+        <div>
+            Profile
+        </div>
+        <div>
+            Username:
+            <span></span>
+        </div>
+        <div>
+            FirstName:
+            <span></span>
+        </div>
+        <div>
+            LastName:
+            <span></span>
+        </div>
+    </div>
+</template>

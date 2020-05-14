@@ -35,6 +35,13 @@
               :to="{name: 'events-edit',params:{id:event._id}}"
               exact
             >Edit</router-link>
+            <router-link
+              type="button"
+              tag="button"
+              class="card-link btn btn-success"
+              :to="{name: 'events-manage',params:{id:event._id}}"
+              exact
+            >Manage</router-link>
             <a
               v-on:click.prevent="currentEventId = event._id"
               class="card-link btn btn-danger"

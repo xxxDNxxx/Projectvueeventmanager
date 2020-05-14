@@ -32,7 +32,12 @@
           </li>
           <li v-if="!$store.state.isLoggedIn" class="nav-item">
               <router-link to="/register" class="nav-link" exact>
-        Register
+        
+        </router-link>
+          </li>
+          <li v-if="$store.state.isLoggedIn" class="nav-item">
+              <router-link to="/profile" class="nav-link" exact>
+        Profile
         </router-link>
           </li>
           <li v-if="!$store.state.isLoggedIn" class="nav-item">

@@ -6,7 +6,10 @@ import Register from '../views/authentication/Register.vue'
 import EventAll from '../views/events/EventAll.vue'
 import EventCreate from '../views/events/EventCreate.vue'
 import EventEdit from '../views/events/EventEdit.vue'
+import Profile from '../views/authentication/Profile.vue'
+import EventManage from '../views/events/EventManage.vue'
 import * as auth from '../services/AuthService'
+
 
 Vue.use(Router)
 
@@ -43,9 +46,34 @@ export default new Router({
 
         },
         {
+            path: '/eventsm/:id',
+            name: 'events-manage',
+            component: EventManage,
+            beforeEnter: (to, from, next) => {
+                if (auth.isLoggedIn()) {
+                    next();
+                } else {
+                    next('/login')
+                }
+            }
+
+        },
+        {
             path: '/events/:id',
             name: 'events-edit',
             component: EventEdit,
+            beforeEnter: (to, from, next) => {
+                if (auth.isLoggedIn()) {
+                    next();
+                } else {
+                    next('/login')
+                }
+            }
+        },
+        {
+            path: '/profile/:id',
+            name: 'profile',
+            component: Profile,
             beforeEnter: (to, from, next) => {
                 if (auth.isLoggedIn()) {
                     next();
