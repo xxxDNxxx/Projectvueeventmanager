@@ -33,6 +33,8 @@ router.put('/event', auth.requireLogin, controller.update);
 
 router.delete('/event/:id', auth.requireLogin, controller.remove);
 
-router.get('/waiter', controller.find);
+router.put('/updateattend', auth.requireLogin, controller.updateAttend);
+
+router.put('/updateverify', auth.requireLogin, controller.updateVerify);
 
 exports.default = router;

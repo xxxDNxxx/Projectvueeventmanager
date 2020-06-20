@@ -19,3 +19,11 @@ export function deleteEvent(id) {
 export function updateEvent(event) {
     return http().put('/event', event)
 }
+
+export function updateAttend(id) {
+    return http().put('/updateattend', id)
+}
+
+export function updateVerify(id) {
+    return http().put('/updateverify', id)
+}

@@ -23,7 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var router = _express2.default.Router();
 
 
-router.get('/user', auth.requireLogin, controller.index);
+router.get('/getalluser', auth.requireLogin, controller.index);
 
 router.delete('/user:id', auth.requireLogin, controller.remove);
 

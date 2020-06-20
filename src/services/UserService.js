@@ -1,7 +1,7 @@
 import { http } from './HttpService'
 
 export function getAllUser() {
-    return http().get('/user')
+    return http().get('/getalluser')
 }
 
 export function deleteUser(id) {

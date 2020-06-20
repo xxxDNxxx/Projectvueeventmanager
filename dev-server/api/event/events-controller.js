@@ -16,15 +16,6 @@ export function index(req, res) {
 
 }
 
-export function getallAttendee(req, res) {
-    Event.find({}, (error, events) => {
-        if (error) {
-            return res.status(500).json()
-        }
-        return res.status(200).json({ events: events })
-    }).populate('attendees', 'username', 'users')
-}
-
 export function create(req, res) {
     // create event
     const id = auth.getUserId(req)
@@ -114,7 +105,10 @@ export function show(req, res) {
             for (var i = 0; i < event.attendees.length; i++) {
                 array.push({
                     id: event.attendees[i]._id,
+                    userid: event.attendees[i].username._id,
                     username: event.attendees[i].username.username,
+                    firstname: event.attendees[i].username.firstname,
+                    lastname: event.attendees[i].username.lastname,
                     type: event.attendees[i].type,
                     verify: event.attendees[i].username.verified
                 })
@@ -127,12 +121,25 @@ export function show(req, res) {
 
 }
 
-export function find(req, res) {
-    Waiter.find({}).exec(function(error, waiters) {
+export function updateAttend(req, res) {
+    const id = req.body.id
+    Waiter.findByIdAndUpdate(id, { type: "attended" }, { new: true }, function(error, waiters) {
         if (error) {
             return res.status(500).json()
         }
-        console.log(waiters)
-        return res.status(200).json({ waiters: waiters })
+        return res.status(204).json({ waiters: waiters })
+
+    })
+}
+
+export function updateVerify(req, res) {
+    const id = req.body.userid
+    console.log("this is id " + id)
+    User.findByIdAndUpdate(id, { verified: true }, { new: true }).exec(function(error, users) {
+        if (error) {
+            return res.status(500).json()
+        }
+
+        return res.status(204).json({ users: users })
     })
 }

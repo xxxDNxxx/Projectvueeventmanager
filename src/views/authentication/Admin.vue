@@ -2,9 +2,9 @@
     <div>
         <h1>User management</h1>
         <div>
-          <b-table striped hover :items="event.attendees" :fields="fields">
-          <template v-slot:cell(operation)="data">
-            <b-button @click="info(data)">Info</b-button>
+          <b-table striped hover :items="user" :fields="fields">
+          <template v-slot:cell(operation)="users">
+            {{users}}
           </template>
         </b-table>
         </div>
@@ -13,22 +13,28 @@
 <script>
 import * as userService from "../../services/UserService"
 export default {
-  name:"admin",
-  data: function(){
-    return{
-      users:null,
-      currentUserId:null
-    }
-  },
-  beforeRouteEnter(to,from,next){
-    userService.getAllUser().then(res =>{
-      next(vm =>{
-        vm.users = res.data.users
-      })
-    })
-  },
-  methods:{
-    
-  }
+
+   name:'admin',
+   data: function(){
+     return{
+       user:[{
+         index:'',
+         username:'',
+         firstname:'',
+         lastname:'',
+         verify:''
+
+       }],
+       fields:['index','username','firstname','lastname','verify','operation']
+     }
+   },
+   beforeRouteEnter (to, from, next) {
+     userService.getAllUser().then(res =>{
+       next(vm =>{
+         vm.user = res.data.user
+       })
+     })
+   }
 }
+
 </script>

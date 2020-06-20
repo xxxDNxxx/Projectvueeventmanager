@@ -10,6 +10,7 @@
           class="form-control"
           id="username"
           placeholder="Enter Username"
+          required
         />
       </div>
       <div class="form-group">
@@ -19,7 +20,8 @@
         type="password" 
         class="form-control" 
         id="password" 
-        placeholder="Enter Password" />
+        placeholder="Enter Password"
+        required />
       </div>
       <div class="form-group">
           <button type="submit" class="btn btn-secondary">Login</button>

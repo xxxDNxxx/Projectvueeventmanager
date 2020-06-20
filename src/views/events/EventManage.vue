@@ -5,11 +5,12 @@
             <div class="row">
                 <div class="col-sm">
                     <h1 class="text-center">{{event.title}}</h1>
+                    
                 </div>
             </div>
                  <!-- QRModal -->
       <div>
-  <b-modal id="bv-modal-example" hide-footer>
+  <b-modal id="bv-modal-eventinfo" hide-footer>
     <template v-slot:modal-title>
       <code>{{event.title}}</code> 
     </template>
@@ -28,10 +29,15 @@
         </h1>
       </div>
     </div>
-    <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Close</b-button>
+    <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-eventinfo')">Close</b-button>
   </b-modal>
 </div>
       <!-- EndQRModal -->
+
+      <!-- InfoUserModal -->
+        
+  
+      <!-- EndInfoUserModal -->
             
    <!-- Event info -->         
   <div class="row mt-5">
@@ -50,7 +56,7 @@
           <p>{{event.dueDate}}</p>
       </div>
       <div>
-        <b-button id="show-btn" @click="$bvModal.show('bv-modal-example')">Scan QR</b-button>      
+        <b-button id="show-btn" @click="$bvModal.show('bv-modal-eventinfo')">Scan QR</b-button>      
         </div>
         
     </div>
@@ -58,10 +64,26 @@
 
     <!-- Attendees -->
     <div class="col-sm">
-      <label>Attendee</label>
-      <div>
-        <b-table striped hover :items="user" :fields="fields">
-          
+      
+      <div v-if="user.length>0">
+        <label>Member</label>
+        <b-table thead-class="bg-success text-center" tbody-class="text-center" bordered hover :items="user" :fields="fields">
+          <template v-slot:cell(index)="user">
+        {{ user.index + 1 }}
+        
+      </template>
+          <template v-slot:cell(operation)="user">
+            
+            <div>
+              <b-button v-if="user.item.verify == false " variant="warning" @click="updateVerify(user.item.userid)">
+                Verify
+                </b-button>
+                &nbsp;
+              <b-button v-if="user.item.type == 'fail'" variant="success" @click="updateAttend(user.item.id)">
+                Attended
+                </b-button>
+            </div>
+          </template>
         </b-table>
       </div>
     </div>
@@ -94,13 +116,19 @@ export default {
              ]
              
        },
-       user:{
+       user:[{
          id:'',
+         userid:'',
+         index:'',
          type:'',
-         username:''
+         username:'',
+         firstname:'',
+         lastname:'',
+         verify:''
 
-       },
-       fields:['id','username','type']
+       }],
+       
+       fields:['index','username','verify','type','operation']
      }
 
    },
@@ -115,21 +143,42 @@ export default {
                    event.dueDate = moment(event.dueDate).format('YYYY-MM-DD')
                    vm.event = event
                    vm.user = user
-                   console.log(event)
+                 
                })
+               
            }
+           
        })
-       
+         
+          
    },
    methods:{
       onSubmit: async function(){
         const request = {
-            event:this.event
-            
-          
+            event:this.event 
         }
+      
         await eventService.updateEvent(request)
         this.$router.push({name:'events-all'})  
+      },
+      showUser(user){
+        console.log(user)
+      },
+      updateAttend: function(id){
+        const attendees = {
+          id:id
+        }
+        console.log(attendees)
+        eventService.updateAttend(attendees)
+        location.reload()
+      },
+      updateVerify: function(id){
+        const verifies = {
+          userid:id
+        }
+        console.log(verifies)
+        eventService.updateVerify(verifies)
+        
       }
    },
     components: {

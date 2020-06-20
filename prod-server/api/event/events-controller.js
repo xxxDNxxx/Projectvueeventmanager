@@ -4,12 +4,12 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.index = index;
-exports.getallAttendee = getallAttendee;
 exports.create = create;
 exports.update = update;
 exports.remove = remove;
 exports.show = show;
-exports.find = find;
+exports.updateAttend = updateAttend;
+exports.updateVerify = updateVerify;
 
 var _userModel = require('../../model/user-model');
 
@@ -47,15 +47,6 @@ function index(req, res) {
         }
         return res.status(200).json({ events: events });
     }).populate('author', 'username', 'users');
-}
-
-function getallAttendee(req, res) {
-    _eventModel2.default.find({}, function (error, events) {
-        if (error) {
-            return res.status(500).json();
-        }
-        return res.status(200).json({ events: events });
-    }).populate('attendees', 'username', 'users');
 }
 
 function create(req, res) {
@@ -147,7 +138,10 @@ function show(req, res) {
         for (var i = 0; i < event.attendees.length; i++) {
             array.push({
                 id: event.attendees[i]._id,
+                userid: event.attendees[i].username._id,
                 username: event.attendees[i].username.username,
+                firstname: event.attendees[i].username.firstname,
+                lastname: event.attendees[i].username.lastname,
                 type: event.attendees[i].type,
                 verify: event.attendees[i].username.verified
             });
@@ -156,12 +150,24 @@ function show(req, res) {
     });
 }
 
-function find(req, res) {
-    _waiterModel2.default.find({}).exec(function (error, waiters) {
+function updateAttend(req, res) {
+    var id = req.body.id;
+    _waiterModel2.default.findByIdAndUpdate(id, { type: "attended" }, { new: true }, function (error, waiters) {
         if (error) {
             return res.status(500).json();
         }
-        console.log(waiters);
-        return res.status(200).json({ waiters: waiters });
+        return res.status(204).json({ waiters: waiters });
+    });
+}
+
+function updateVerify(req, res) {
+    var id = req.body.userid;
+    console.log("this is id " + id);
+    _userModel2.default.findByIdAndUpdate(id, { verified: true }, { new: true }).exec(function (error, users) {
+        if (error) {
+            return res.status(500).json();
+        }
+
+        return res.status(204).json({ users: users });
     });
 }

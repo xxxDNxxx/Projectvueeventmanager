@@ -37,7 +37,7 @@
           </li>
           <li v-if="$store.state.isLoggedIn" class="nav-item">
               <router-link to="/admin" class="nav-link" exact>
-        Admin User
+        Manage User
         </router-link>
           </li>
           <li v-if="!$store.state.isLoggedIn" class="nav-item">
