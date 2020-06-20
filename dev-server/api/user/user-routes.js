@@ -1,7 +1,10 @@
 import express from 'express'
 const router = express.Router()
+import * as auth from '../../services/auth-service'
 import * as controller from './user-controller'
 
-router.get('/user', controller.index)
+router.get('/user', auth.requireLogin, controller.index)
+
+router.delete('/user:id', auth.requireLogin, controller.remove)
 
 export default router;

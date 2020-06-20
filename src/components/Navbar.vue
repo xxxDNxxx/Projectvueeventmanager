@@ -19,12 +19,12 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
               <router-link to="/" class="nav-link" exact >
         Home
         </router-link>
             
-          </li>
+          </li> -->
           <li v-if="$store.state.isLoggedIn" class="nav-item">
               <router-link to="/events" class="nav-link" exact>
         Event
@@ -36,8 +36,8 @@
         </router-link>
           </li>
           <li v-if="$store.state.isLoggedIn" class="nav-item">
-              <router-link to="/profile" class="nav-link" exact>
-        Profile
+              <router-link to="/admin" class="nav-link" exact>
+        Admin User
         </router-link>
           </li>
           <li v-if="!$store.state.isLoggedIn" class="nav-item">

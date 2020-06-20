@@ -5,6 +5,8 @@
       <router-link to="/events/new" class="btn btn-success ml-2" exact>Create Event</router-link>
     </div>
 
+    
+
     <div v-if="events && events.length > 0" class="d-flex flex-wrap justify-content-start">
       <div
         v-for="event in events"

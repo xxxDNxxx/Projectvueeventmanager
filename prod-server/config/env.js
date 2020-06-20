@@ -33,7 +33,7 @@ function setEnvironment(app) {
 
 function setDevEnv(app) {
     process.env.NODE_ENV = 'development';
-    process.env.DB_URL = 'mongodb://admin:admin123@ds263068.mlab.com:63068/eventpmanager';
+    process.env.DB_URL = 'mongodb://admin2:admin2@ds211269.mlab.com:11269/face_vertification';
     process.env.TOKEN_SECRET = 'my-development-secret';
     app.use(_bodyParser2.default.json());
     app.use((0, _morgan2.default)('dev'));

@@ -52,7 +52,8 @@ export default {
        event:{
            title:'',
            body:'',
-           dueDate:''
+           dueDate:'',
+           attendees:[]
        }
      }
 

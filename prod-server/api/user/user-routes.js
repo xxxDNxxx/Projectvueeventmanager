@@ -8,6 +8,10 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
+var _authService = require('../../services/auth-service');
+
+var auth = _interopRequireWildcard(_authService);
+
 var _userController = require('./user-controller');
 
 var controller = _interopRequireWildcard(_userController);
@@ -19,6 +23,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var router = _express2.default.Router();
 
 
-router.get('/user', controller.index);
+router.get('/user', auth.requireLogin, controller.index);
+
+router.delete('/user:id', auth.requireLogin, controller.remove);
 
 exports.default = router;

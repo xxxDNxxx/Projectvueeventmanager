@@ -14,4 +14,6 @@ router.put('/event', auth.requireLogin, controller.update)
 
 router.delete('/event/:id', auth.requireLogin, controller.remove)
 
+router.get('/waiter', controller.find)
+
 export default router;

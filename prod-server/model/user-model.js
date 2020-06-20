@@ -17,12 +17,14 @@ var _bcryptNodejs2 = _interopRequireDefault(_bcryptNodejs);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var userSchema = new _mongoose2.default.Schema({
+    isAdmin: Boolean,
+    verified: Boolean,
     username: String,
     password: String,
     firstname: String,
     lastname: String
+
 });
-userSchema.set('timestamps', true);
 userSchema.virtual('fullname').get(function () {
     var firstname = _stringUtil.StringUtil.capitalize(this.firstname.toLowerCase());
     var lastname = _stringUtil.StringUtil.capitalize(this.lastname.toLowerCase());
@@ -32,6 +34,8 @@ userSchema.statics.passwordMatches = function (password, hash) {
     return _bcryptNodejs2.default.compareSync(password, hash);
 };
 userSchema.pre('save', function (next) {
+    this.isAdmin = false;
+    this.verified = false;
     this.username = this.username.toLowerCase();
     this.firstname = this.firstname.toLowerCase();
     this.lastname = this.lastname.toLowerCase();
@@ -40,4 +44,4 @@ userSchema.pre('save', function (next) {
     next();
 });
 
-exports.default = _mongoose2.default.model('user', userSchema);
+exports.default = _mongoose2.default.model('users', userSchema);

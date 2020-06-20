@@ -1,8 +1,10 @@
 import User from '../../model/user-model'
 import Event from '../../model/event-model'
 import moment from 'moment'
+import Waiter from '../../model/waiter-model'
 import * as auth from '../../services/auth-service'
 import keyrandom from 'randomstring'
+
 export function index(req, res) {
     // find all events
     Event.find({}, (error, events) => {
@@ -10,8 +12,17 @@ export function index(req, res) {
             return res.status(500).json()
         }
         return res.status(200).json({ events: events })
-    }).populate('author', 'username', 'user')
+    }).populate('author', 'username', 'users')
 
+}
+
+export function getallAttendee(req, res) {
+    Event.find({}, (error, events) => {
+        if (error) {
+            return res.status(500).json()
+        }
+        return res.status(200).json({ events: events })
+    }).populate('attendees', 'username', 'users')
 }
 
 export function create(req, res) {
@@ -83,13 +94,45 @@ export function remove(req, res) {
 
 export function show(req, res) {
     // get event by id
-    Event.findOne({ _id: req.params.id }, (error, event) => {
+    Event.findOne({ _id: req.params.id })
+        // .populate('author')
+        .populate({
+            path: 'attendees',
+            model: 'waiters',
+            populate: ({ path: 'username', model: 'users' })
+
+        }).exec(function(error, event) {
+            if (error) {
+                return res.status(500).json()
+            }
+            if (!event) {
+                return res.status(404).json()
+            }
+
+            // console.log(event.attendees[0].username.username)
+            var array = []
+            for (var i = 0; i < event.attendees.length; i++) {
+                array.push({
+                    id: event.attendees[i]._id,
+                    username: event.attendees[i].username.username,
+                    type: event.attendees[i].type,
+                    verify: event.attendees[i].username.verified
+                })
+            }
+            return res.status(200).json({ users: array, event: event })
+
+        })
+
+
+
+}
+
+export function find(req, res) {
+    Waiter.find({}).exec(function(error, waiters) {
         if (error) {
             return res.status(500).json()
         }
-        if (!event) {
-            return res.status(404).json()
-        }
-        return res.status(200).json({ event: event })
+        console.log(waiters)
+        return res.status(200).json({ waiters: waiters })
     })
 }

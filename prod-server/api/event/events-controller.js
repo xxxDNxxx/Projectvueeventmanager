@@ -4,10 +4,12 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.index = index;
+exports.getallAttendee = getallAttendee;
 exports.create = create;
 exports.update = update;
 exports.remove = remove;
 exports.show = show;
+exports.find = find;
 
 var _userModel = require('../../model/user-model');
 
@@ -20,6 +22,10 @@ var _eventModel2 = _interopRequireDefault(_eventModel);
 var _moment = require('moment');
 
 var _moment2 = _interopRequireDefault(_moment);
+
+var _waiterModel = require('../../model/waiter-model');
+
+var _waiterModel2 = _interopRequireDefault(_waiterModel);
 
 var _authService = require('../../services/auth-service');
 
@@ -40,7 +46,16 @@ function index(req, res) {
             return res.status(500).json();
         }
         return res.status(200).json({ events: events });
-    }).populate('author', 'username', 'user');
+    }).populate('author', 'username', 'users');
+}
+
+function getallAttendee(req, res) {
+    _eventModel2.default.find({}, function (error, events) {
+        if (error) {
+            return res.status(500).json();
+        }
+        return res.status(200).json({ events: events });
+    }).populate('attendees', 'username', 'users');
 }
 
 function create(req, res) {
@@ -112,13 +127,41 @@ function remove(req, res) {
 
 function show(req, res) {
     // get event by id
-    _eventModel2.default.findOne({ _id: req.params.id }, function (error, event) {
+    _eventModel2.default.findOne({ _id: req.params.id })
+    // .populate('author')
+    .populate({
+        path: 'attendees',
+        model: 'waiters',
+        populate: { path: 'username', model: 'users' }
+
+    }).exec(function (error, event) {
         if (error) {
             return res.status(500).json();
         }
         if (!event) {
             return res.status(404).json();
         }
-        return res.status(200).json({ event: event });
+
+        // console.log(event.attendees[0].username.username)
+        var array = [];
+        for (var i = 0; i < event.attendees.length; i++) {
+            array.push({
+                id: event.attendees[i]._id,
+                username: event.attendees[i].username.username,
+                type: event.attendees[i].type,
+                verify: event.attendees[i].username.verified
+            });
+        }
+        return res.status(200).json({ users: array, event: event });
+    });
+}
+
+function find(req, res) {
+    _waiterModel2.default.find({}).exec(function (error, waiters) {
+        if (error) {
+            return res.status(500).json();
+        }
+        console.log(waiters);
+        return res.status(200).json({ waiters: waiters });
     });
 }

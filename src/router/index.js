@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../views/Home.vue'
 import Login from '../views/authentication/Login.vue'
 import Register from '../views/authentication/Register.vue'
 import EventAll from '../views/events/EventAll.vue'
 import EventCreate from '../views/events/EventCreate.vue'
 import EventEdit from '../views/events/EventEdit.vue'
-import Profile from '../views/authentication/Profile.vue'
+import Admin from '../views/authentication/Admin.vue'
 import EventManage from '../views/events/EventManage.vue'
 import * as auth from '../services/AuthService'
 
@@ -18,7 +17,7 @@ export default new Router({
     routes: [{
             path: '/',
             name: 'home',
-            component: Home
+            component: Login
         },
         {
             path: '/events',
@@ -71,9 +70,9 @@ export default new Router({
             }
         },
         {
-            path: '/profile/:id',
-            name: 'profile',
-            component: Profile,
+            path: '/admin',
+            name: 'admin',
+            component: Admin,
             beforeEnter: (to, from, next) => {
                 if (auth.isLoggedIn()) {
                     next();
