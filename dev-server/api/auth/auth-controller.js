@@ -12,8 +12,9 @@ export function index(req, res) {
             return res.status(500).json()
         }
         if (!user) {
-            return res.status(401).json()
+            return res.status(401).json({ usererror: "Invalid Username or Password" })
         }
+
 
         const passwordsMatch = User.passwordMatches(req.body.password, user.password)
         if (!passwordsMatch) {

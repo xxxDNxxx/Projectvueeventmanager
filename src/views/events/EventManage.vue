@@ -67,7 +67,7 @@
       
       <div v-if="user.length>0">
         <label>Member</label>
-        <b-table thead-class="bg-success text-center" tbody-class="text-center" bordered hover :items="user" :fields="fields">
+        <b-table ref="table" thead-class="bg-success text-center" tbody-class="text-center" bordered hover :items="user" :fields="fields">
           <template v-slot:cell(index)="user">
         {{ user.index + 1 }}
         
@@ -106,7 +106,9 @@ export default {
    name:'events-manage',
    data: function(){
      return{
+       attended:false,
        event:{
+           _id:'',
            eventKey:'',
            title:'',
            body:'',
@@ -128,11 +130,13 @@ export default {
 
        }],
        
-       fields:['index','username','verify','type','operation']
+       fields:['index','username','verify','type','operation'],
+       
      }
 
    },
    beforeRouteEnter (to, from, next) {
+      //  console.log("event manage")
        eventService.getEventById(to.params.id).then(response =>{
            if(!response){
                next('/events')
@@ -143,7 +147,7 @@ export default {
                    event.dueDate = moment(event.dueDate).format('YYYY-MM-DD')
                    vm.event = event
                    vm.user = user
-                 
+
                })
                
            }
@@ -153,37 +157,34 @@ export default {
           
    },
    methods:{
-      onSubmit: async function(){
-        const request = {
-            event:this.event 
-        }
-      
-        await eventService.updateEvent(request)
-        this.$router.push({name:'events-all'})  
-      },
-      showUser(user){
-        console.log(user)
-      },
+  
       updateAttend: function(id){
         const attendees = {
           id:id
         }
-        console.log(attendees)
+        
+        
         eventService.updateAttend(attendees)
-        location.reload()
+
       },
       updateVerify: function(id){
         const verifies = {
           userid:id
         }
-        console.log(verifies)
+        
         eventService.updateVerify(verifies)
         
       }
+      
    },
     components: {
       QrcodeVue
-    }
+     },
+     mounted() {
+       
+     },
+    
+    
 }
 </script>
     

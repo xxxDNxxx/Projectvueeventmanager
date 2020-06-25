@@ -134,7 +134,7 @@ export function updateAttend(req, res) {
 
 export function updateVerify(req, res) {
     const id = req.body.userid
-    console.log("this is id " + id)
+
     User.findByIdAndUpdate(id, { verified: true }, { new: true }).exec(function(error, users) {
         if (error) {
             return res.status(500).json()

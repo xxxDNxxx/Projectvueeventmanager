@@ -162,7 +162,7 @@ function updateAttend(req, res) {
 
 function updateVerify(req, res) {
     var id = req.body.userid;
-    console.log("this is id " + id);
+
     _userModel2.default.findByIdAndUpdate(id, { verified: true }, { new: true }).exec(function (error, users) {
         if (error) {
             return res.status(500).json();

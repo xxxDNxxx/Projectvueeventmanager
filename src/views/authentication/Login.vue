@@ -23,9 +23,13 @@
         placeholder="Enter Password"
         required />
       </div>
+      <div v-if="username ==''&& password==''">
+        <b-alert variant="danger" show>please enter username and password</b-alert>
+      </div>
       <div class="form-group">
           <button type="submit" class="btn btn-secondary">Login</button>
       </div>
+      
       
     </form>
   </div>
@@ -48,7 +52,7 @@ export default {
           username: this.username,
           password: this.password
         }
-        await auth.login(user)
+         await auth.login(user)
         this.$router.push({path:'/events'})  
       }
    }
