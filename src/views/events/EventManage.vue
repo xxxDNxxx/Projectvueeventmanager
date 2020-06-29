@@ -33,11 +33,6 @@
   </b-modal>
 </div>
       <!-- EndQRModal -->
-
-      <!-- InfoUserModal -->
-        
-  
-      <!-- EndInfoUserModal -->
             
    <!-- Event info -->         
   <div class="row mt-5">
@@ -67,7 +62,7 @@
       
       <div v-if="user.length>0">
         <label>Member</label>
-        <b-table ref="table" thead-class="bg-success text-center" tbody-class="text-center" bordered hover :items="user" :fields="fields">
+        <b-table thead-class="text-center" tbody-class="text-center" bordered hover :items="user" :fields="fields">
           <template v-slot:cell(index)="user">
         {{ user.index + 1 }}
         
@@ -106,9 +101,7 @@ export default {
    name:'events-manage',
    data: function(){
      return{
-       attended:false,
        event:{
-           _id:'',
            eventKey:'',
            title:'',
            body:'',
@@ -130,13 +123,11 @@ export default {
 
        }],
        
-       fields:['index','username','verify','type','operation'],
-       
+       fields:['index','username','verify','type','operation']
      }
 
    },
    beforeRouteEnter (to, from, next) {
-      //  console.log("event manage")
        eventService.getEventById(to.params.id).then(response =>{
            if(!response){
                next('/events')
@@ -147,7 +138,7 @@ export default {
                    event.dueDate = moment(event.dueDate).format('YYYY-MM-DD')
                    vm.event = event
                    vm.user = user
-
+                 
                })
                
            }
@@ -157,34 +148,45 @@ export default {
           
    },
    methods:{
-  
-      updateAttend: function(id){
+      onSubmit: async function(){
+        const request = {
+            event:this.event 
+        }
+      
+        await eventService.updateEvent(request)
+        this.$router.push({name:'events-all'})  
+      },
+      updateAttend: async function(id){
+        
         const attendees = {
           id:id
         }
         
+        // console.log(attendees)
+        await eventService.updateAttend(attendees)
+        await this.refresh()
         
-        eventService.updateAttend(attendees)
-
       },
-      updateVerify: function(id){
+      refresh: async function() {
+        const resEvent = await eventService.getEventById(this.$route.params.id)
+        const event = resEvent.data.event
+        const user = resEvent.data.users
+        event.dueDate = moment(event.dueDate).format('YYYY-MM-DD')
+        this.event = event
+        this.user = user
+      },
+      updateVerify: async function(id){
         const verifies = {
           userid:id
         }
-        
-        eventService.updateVerify(verifies)
+        await eventService.updateVerify(verifies)
+        await this.refresh()
         
       }
-      
    },
     components: {
       QrcodeVue
-     },
-     mounted() {
-       
-     },
-    
-    
+    }
 }
 </script>
     

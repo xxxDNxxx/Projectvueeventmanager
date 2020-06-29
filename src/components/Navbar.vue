@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top custom-bg-dark">
         <router-link to="/" class="navbar-brand" >
             <img style="max-height:25px" alt="Vue logo" src="../assets/logo.png" />
-        I am here
+        Event Manager
         </router-link>
       
       <button
@@ -34,8 +34,8 @@
               <router-link to="/register" class="nav-link" exact>
         
         </router-link>
-          <!-- </li>
-          <li v-if="$store.state.isLoggedIn" class="nav-item">
+          </li>
+          <!-- <li v-if="$store.state.isLoggedIn" class="nav-item">
               <router-link to="/admin" class="nav-link" exact>
         Manage User
         </router-link>

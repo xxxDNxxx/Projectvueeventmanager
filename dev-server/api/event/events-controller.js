@@ -100,7 +100,6 @@ export function show(req, res) {
                 return res.status(404).json()
             }
 
-            // console.log(event.attendees[0].username.username)
             var array = []
             for (var i = 0; i < event.attendees.length; i++) {
                 array.push({
@@ -134,7 +133,6 @@ export function updateAttend(req, res) {
 
 export function updateVerify(req, res) {
     const id = req.body.userid
-
     User.findByIdAndUpdate(id, { verified: true }, { new: true }).exec(function(error, users) {
         if (error) {
             return res.status(500).json()

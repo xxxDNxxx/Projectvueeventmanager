@@ -133,7 +133,6 @@ function show(req, res) {
             return res.status(404).json();
         }
 
-        // console.log(event.attendees[0].username.username)
         var array = [];
         for (var i = 0; i < event.attendees.length; i++) {
             array.push({
@@ -162,7 +161,6 @@ function updateAttend(req, res) {
 
 function updateVerify(req, res) {
     var id = req.body.userid;
-
     _userModel2.default.findByIdAndUpdate(id, { verified: true }, { new: true }).exec(function (error, users) {
         if (error) {
             return res.status(500).json();

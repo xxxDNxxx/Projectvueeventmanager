@@ -25,7 +25,7 @@ function index(req, res) {
             return res.status(500).json();
         }
         if (!user) {
-            return res.status(401).json({ usererror: "Invalid Username or Password" });
+            return res.status(401).json();
         }
 
         var passwordsMatch = _userModel2.default.passwordMatches(req.body.password, user.password);

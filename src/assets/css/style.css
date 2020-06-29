@@ -105,7 +105,3 @@ form.custom-form {
 .late {
     color: #dc3545;
 }
-
-b-button:disabled {
-    background: red !important;
-}
